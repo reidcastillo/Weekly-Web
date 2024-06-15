@@ -115,11 +115,17 @@ pricing_data = [
     {"sqft_range": "2000-2499", "bedrooms": 6, "bathrooms": 8, "deep_clean": 579, "standard_clean": 389, "move_in/out": 669}
 ]
 
+def format_price(price):
+    return f"${price}.99"
+
 def get_cleaning_prices(sqft, bedrooms, bathrooms):
     for data in pricing_data:
         sqft_min, sqft_max = map(int, data["sqft_range"].split('-'))
         if sqft_min <= sqft <= sqft_max and data["bedrooms"] == bedrooms and data["bathrooms"] == bathrooms:
-            return data["deep_clean"], data["standard_clean"], data["move_in_out"]
+            deep_clean = format_price(data["deep_clean"])
+            standard_clean = format_price(data["standard_clean"])
+            move_in_out = format_price(data["move_in_out"])
+            return deep_clean, standard_clean, move_in_out
     return None, None, None  # If no match found
 
 def get_property_records(rent_cast_api_key, address):
@@ -142,11 +148,11 @@ def index():
         <title>Real Estate App</title>
     </head>
     <body>
-        <h1>Welcome to Weekly!</h1>
+        <h1>Welcome to Weekly Home Cleaning</h1>
         <form action="/property" method="post">
-            <label for="address">Enter Address For A Quote:</label>
+            <label for="address">Enter Address:</label>
             <input type="text" id="address" name="address" required>
-            <button type="submit">Get Quote</button>
+            <button type="submit">Recieve A Personalized Quote</button>
         </form>
     </body>
     </html>
@@ -164,9 +170,7 @@ def property():
         "squareFootage": "Square Footage",
         "bedrooms": "Bedrooms",
         "bathrooms": "Bathrooms",
-        "yearBuilt": "Year Built",
-        "lotSize": "Lot Size",
-        "propertyType": "Property Type"
+        
     }
 
     for col, display_name in expected_columns.items():
@@ -181,11 +185,13 @@ def property():
     deep_clean, standard_clean, move_in_out = get_cleaning_prices(sqft, bedrooms, bathrooms)
 
     if deep_clean is None and standard_clean is None and move_in_out is None:
-        property_stats["Cleaning Prices"] = "Please contact us for a customized quote."
+        pricing_info = "Please contact us for a customized quote."
     else:
-        property_stats["Deep Clean Price"] = deep_clean
-        property_stats["Standard Clean Price"] = standard_clean
-        property_stats["Move in/out Price"] = move_in_out
+        pricing_info = f"""
+        <p><strong>Deep Clean Price:</strong> {deep_clean}</p>
+        <p><strong>Standard Clean Price:</strong> {standard_clean}</p>
+        <p><strong>Move in/out Price:</strong> {move_in_out}</p>
+        """
 
     stats_list = ''.join([f"<li><strong>{key}:</strong> {value}</li>" for key, value in property_stats.items()])
     html_content = f'''
@@ -196,10 +202,13 @@ def property():
         <title>Property Info</title>
     </head>
     <body>
-        <h1>Property Information</h1>
+        <h1>Pricing Information</h1>
+        {pricing_info}
+        <h2>Based On:</h2>
         <ul>
             {stats_list}
         </ul>
+        <p>If any of this information is incorrect, please contact us.</p>
         <img src="/static/mop.jpg" alt="Mop Image" style="max-width:100%;height:auto;">
         <a href="/">Go Back</a>
     </body>
