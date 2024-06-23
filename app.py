@@ -146,14 +146,41 @@ def index():
     <head>
         <meta charset="UTF-8">
         <title>Real Estate App</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <style>
+            .hero-text {
+                font-size: 3rem;
+                font-weight: bold;
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+        </style>
     </head>
     <body>
-        <h1>Welcome to Weekly Home Cleaning</h1>
-        <form action="/property" method="post">
-            <label for="address">Enter Address:</label>
-            <input type="text" id="address" name="address" required>
-            <button type="submit">Recieve A Personalized Quote</button>
-        </form>
+        <div class="container mt-5">
+            <div class="text-center">
+                <img src="/static/logo.png" alt="Logo" class="img-fluid mb-4" style="width: 25%;">
+            </div>
+            <div class="hero-text">Cleaning Made Simple.</div>
+            <form action="/property" method="post" class="mt-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" id="address" name="address" class="form-control" placeholder="Enter an address, neighborhood, city, or ZIP code" required>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </body>
     </html>
     '''
@@ -170,7 +197,9 @@ def property():
         "squareFootage": "Square Footage",
         "bedrooms": "Bedrooms",
         "bathrooms": "Bathrooms",
-        
+        "yearBuilt": "Year Built",
+        "lotSize": "Lot Size",
+        "propertyType": "Property Type"
     }
 
     for col, display_name in expected_columns.items():
@@ -191,6 +220,7 @@ def property():
         <p><strong>Deep Clean Price:</strong> {deep_clean}</p>
         <p><strong>Standard Clean Price:</strong> {standard_clean}</p>
         <p><strong>Move in/out Price:</strong> {move_in_out}</p>
+        <p>If any of this information is incorrect, please contact us.</p>
         """
 
     stats_list = ''.join([f"<li><strong>{key}:</strong> {value}</li>" for key, value in property_stats.items()])
@@ -200,17 +230,27 @@ def property():
     <head>
         <meta charset="UTF-8">
         <title>Property Info</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     </head>
     <body>
-        <h1>Pricing Information</h1>
-        {pricing_info}
-        <h2>Based On:</h2>
-        <ul>
-            {stats_list}
-        </ul>
-        <p>If any of this information is incorrect, please contact us.</p>
-        <img src="/static/mop.jpg" alt="Mop Image" style="max-width:100%;height:auto;">
-        <a href="/">Go Back</a>
+        <div class="container mt-5">
+            <h1 class="text-center">Property Information</h1>
+            <div class="card mt-4">
+                <div class="card-body">
+                    {pricing_info}
+                    <h2>Property Details</h2>
+                    <ul>
+                        {stats_list}
+                    </ul>
+                </div>
+            </div>
+            <img src="/static/mop.jpg" alt="Mop Image" class="img-fluid mt-4">
+            <a href="/" class="btn btn-secondary mt-3">Go Back</a>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </body>
     </html>
     '''
