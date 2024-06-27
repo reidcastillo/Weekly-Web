@@ -138,45 +138,209 @@ def get_property_records(rent_cast_api_key, address):
     response = requests.get(url, headers=headers, params=querystring)
     return response.json()
 
-@app.route('/')
+ @app.route('/')
 def index():
     html_content = '''
     <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Real Estate App</title>
+        <title>Weekly Home Cleaning</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+            body {
+                background-color: #007bff; /* Solid blue color for the entire page */
+                font-family: 'Bebas Neue', sans-serif;
+            }
+            .header, .footer {
+                background-color: white;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                position: relative;
+                z-index: 10;
+            }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .header img {
+                width: 15%;
+            }
+            .content {
+                background-color: #007bff; /* Solid blue background for the content */
+                height: 70vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                position: relative;
+                z-index: 5;
+                text-align: left;
+                padding: 2rem;
+            }
+            .yellow-field {
+                background-color: #007bff; /* Solid blue background for the yellow field */
+                padding: 100px 0; 
+                text-align: left;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                width: 100%;
+            }
+            .hero-text-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                padding: 0 15%;
+            }
             .hero-text {
                 font-size: 3rem;
                 font-weight: bold;
-                text-align: center;
                 margin-bottom: 1rem;
+                color: white; /* Bold and white text for "Cleaning Made Simple." */
+                z-index: 2;
+            }
+            .input-group {
+                width: 50%; /* Adjusted width for the search bar */
+                margin: 0 auto;
+                z-index: 1;
+                margin-left: 15%;
+            }
+            .sponge-image {
+                width: 450px;
+                height: 450px;
+                border-radius: 50%;
+                overflow: hidden;
+                margin-left: auto;
+                margin-top: 50px; /* Move the image down slightly */
+                z-index: 2;
+            }
+            .sections-container {
+                background: #007bff; /* Solid blue background for sections */
+                padding: 20px;
+                border-radius: 15px;
+                margin: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .sections {
+                display: flex;
+                justify-content: space-around;
+                color: black;
+                padding: 20px;
+            }
+            .section {
+                width: 30%;
+                background: white;
+                padding: 1rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                text-align: left; /* Left-align text */
+            }
+            .section i {
+                font-size: 3rem; /* Make icons bigger */
+                color: #007bff;
+                margin-bottom: 15px; /* Space between icon and text */
+                display: block; /* Ensure icons are above text */
+            }
+            .section h3 {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #333;
+                margin-bottom: 1rem;
+            }
+            .section p {
+                font-size: 1rem;
+                color: #555;
+            }
+            .contact-section {
+                background: linear-gradient(to top, #007bff, #fff); /* Inverse blue gradient background */
+                padding: 100px 0;
+                text-align: center;
+            }
+            .contact-section h2 {
+                color: black; /* White text for "GET IN TOUCH" */
+                font-size: 2.5rem;
+                font-weight: bold;
+                margin-bottom: 1rem;
+            }
+            .contact-section p {
+                color: black;
+                font-size: 1.25rem;
+                margin-bottom: 2rem;
+            }
+            .contact-section .social-icons i {
+                font-size: 2rem;
+                color: black;
+                margin: 0 10px;
+            }
+            .btn-group {
+                display: flex;
+                gap: 10px;
             }
         </style>
     </head>
     <body>
-        <div class="container mt-5">
-            <div class="text-center">
-                <img src="/static/logo.png" alt="Logo" class="img-fluid mb-4" style="width: 25%;">
+        <div class="header">
+            <img src="/static/logo.png" alt="Logo" class="img-fluid">
+            <div class="btn-group">
+                <button class="btn btn-primary">Sign Up</button>
+                <button class="btn btn-secondary">Login</button>
             </div>
-            <div class="hero-text">Cleaning Made Simple.</div>
-            <form action="/property" method="post" class="mt-4">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <input type="text" id="address" name="address" class="form-control" placeholder="Enter an address, neighborhood, city, or ZIP code" required>
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+        </div>
+        <div class="yellow-field">
+            <div class="hero-text-container">
+                <div class="hero-text">Cleaning Made Simple.</div>
+                <div class="sponge-image">
+                    <img src="/static/sponge.png" alt="Sponge Image" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        <div class="input-group">
+            <form action="/property" method="post">
+                <input type="text" id="address" name="address" class="form-control" placeholder="Enter an address and receive an estimate" required>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
             </form>
+        </div>
+        <div class="sections-container">
+            <div class="sections">
+                <div class="section">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Standard Cleaning Service</h3>
+                    <p>Our comprehensive cleaning service provides all the essential elements to maintain a clean and organized home. This package is ideal for weekly or bi-weekly touch-ups, ensuring that your home remains tidy and preventing clutter from accumulating.</p>
+                </div>
+                <div class="section">
+                    <i class="fas fa-broom"></i>
+                    <h3>Deep Cleaning Service</h3>
+                    <p>Perfect for spring renewals or preparing for special events, our meticulous approach ensures a pristine sanctuary from floor to ceiling. Discover the transformative power of a deep clean designed to rejuvenate your space.</p>
+                </div>
+                <div class="section">
+                    <i class="fas fa-box"></i>
+                    <h3>Move-in/Move-out Cleaning Service</h3>
+                    <p>Transitioning homes can be overwhelming, but with our move-in/move-out cleaning service, you can easily focus on settling into your new chapter. Leave the cleaning to us – whether handing over the keys to the next occupant or stepping into your future residence, our team creates your fresh start.</p>
+                </div>
+            </div>
+        </div>
+        <div class="contact-section">
+            <h2>Get In Touch</h2>
+            <p>We proudly serve Richmond, VA.</p>
+            <div class="social-icons">
+                <i class="fab fa-facebook"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-youtube"></i>
+                <i class="fab fa-pinterest"></i>
+                <i class="fab fa-tiktok"></i>
+                <i class="fab fa-linkedin"></i>
+            </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -185,6 +349,10 @@ def index():
     </html>
     '''
     return html_content
+
+
+
+
 
 @app.route('/property', methods=['POST'])
 def property():
@@ -232,20 +400,50 @@ def property():
         <title>Property Info</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <style>
+            body {{
+                background-color: #1a73e8;
+                color: white;
+            }}
+            .container {{
+                margin-top: 50px;
+            }}
+            .card {{
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 15px;
+                background-color: #1a73e8;
+            }}
+            .card-body {{
+                background-color: #ffffff;
+                border-radius: 15px;
+                padding: 20px;
+                color: black;
+            }}
+            h1 {{
+                font-family: 'Bebas Neue', sans-serif;
+            }}
+        </style>
     </head>
     <body>
-        <div class="container mt-5">
-            <h1 class="text-center">Property Information</h1>
+        <div class="container">
+            <h1 class="text-center">Quotes</h1>
             <div class="card mt-4">
                 <div class="card-body">
-                    {pricing_info}
-                    <h2>Property Details</h2>
-                    <ul>
-                        {stats_list}
-                    </ul>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            {pricing_info}
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h2>Property Details</h2>
+                            <ul>
+                                {stats_list}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <img src="/static/mop.jpg" alt="Mop Image" class="img-fluid mt-4">
             <a href="/" class="btn btn-secondary mt-3">Go Back</a>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -255,6 +453,11 @@ def property():
     </html>
     '''
     return html_content
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
