@@ -138,7 +138,7 @@ def get_property_records(rent_cast_api_key, address):
     response = requests.get(url, headers=headers, params=querystring)
     return response.json()
 
- @app.route('/')
+@app.route('/')
 def index():
     html_content = '''
     <!DOCTYPE html>
@@ -175,57 +175,80 @@ def index():
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                align-items: flex-start;
+                align-items: flex-end;
                 position: relative;
                 z-index: 5;
-                text-align: left;
+                text-align: right;
                 padding: 2rem;
             }
             .yellow-field {
-                background-color: #007bff; /* Solid blue background for the yellow field */
+                background-color: linear-gradient(to top, #007bff, #fff); /* Solid blue background for the yellow field */
                 padding: 100px 0; 
-                text-align: left;
+                text-align: right;
                 position: relative;
                 display: flex;
                 align-items: center;
-                justify-content: flex-start;
+                justify-content: flex-end;
                 width: 100%;
+                padding-right: 15%;
             }
             .hero-text-container {
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
+                justify-content: flex-end;
                 width: 100%;
-                padding: 0 15%;
+                padding-right: 5%;
+                flex-direction: column;
+                position: relative;
+                z-index: 2;
             }
             .hero-text {
                 font-size: 3rem;
                 font-weight: bold;
                 margin-bottom: 1rem;
                 color: white; /* Bold and white text for "Cleaning Made Simple." */
-                z-index: 2;
             }
             .input-group {
                 width: 50%; /* Adjusted width for the search bar */
                 margin: 0 auto;
-                z-index: 1;
-                margin-left: 15%;
+                text-align: right;
             }
-            .sponge-image {
-                width: 450px;
-                height: 450px;
-                border-radius: 50%;
+            .search-box {
+                background: #007bff;
+                border-radius: 15px;
+                padding: 0px;
+                
+                display: flex;
+                align-items: left;
+                justify-content: center;
+                width: 133%;
+                margin: left auto;
+            }
+            .sponge-box {
+                width: 900px; /* Adjust size as needed */
+                height: 600px;
+                background:  #007bff;
+                border-radius: 15px;
                 overflow: hidden;
-                margin-left: auto;
-                margin-top: 50px; /* Move the image down slightly */
-                z-index: 2;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+                margin-left: 10px; /* Space between text and sponge box */
+                z-index: 1;
+                padding: 20px;
+            }
+            .sponge-box img {
+                width: 90%;
+                height: auto;
+                border-radius: 70%;
             }
             .sections-container {
                 background: #007bff; /* Solid blue background for sections */
                 padding: 20px;
                 border-radius: 15px;
                 margin: 20px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                
             }
             .sections {
                 display: flex;
@@ -234,7 +257,7 @@ def index():
                 padding: 20px;
             }
             .section {
-                width: 30%;
+                width: 28%; /* Adjusted width for the sections */
                 background: white;
                 padding: 1rem;
                 border-radius: 8px;
@@ -258,7 +281,7 @@ def index():
                 color: #555;
             }
             .contact-section {
-                background: linear-gradient(to top, #007bff, #fff); /* Inverse blue gradient background */
+                background: linear-gradient(to bottom, #007bff, #fff); /* Inverse blue gradient background */
                 padding: 100px 0;
                 text-align: center;
             }
@@ -282,6 +305,10 @@ def index():
                 display: flex;
                 gap: 10px;
             }
+            .btn-primary {
+                background-color: black; /* Black background for the magnifying glass */
+                border:
+            }
         </style>
     </head>
     <body>
@@ -295,20 +322,20 @@ def index():
         <div class="yellow-field">
             <div class="hero-text-container">
                 <div class="hero-text">Cleaning Made Simple.</div>
-                <div class="sponge-image">
-                    <img src="/static/sponge.png" alt="Sponge Image" class="img-fluid">
+                <div class="search-box">
+                    <form action="/property" method="post" class="input-group">
+                        <input type="text" id="address" name="address" class="form-control" placeholder="Enter an address and receive an estimate" required>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </div>
-        <div class="input-group">
-            <form action="/property" method="post">
-                <input type="text" id="address" name="address" class="form-control" placeholder="Enter an address and receive an estimate" required>
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </form>
+            <div class="sponge-box">
+                <img src="/static/sponge.png" alt="Sponge Image">
+            </div>
         </div>
         <div class="sections-container">
             <div class="sections">
@@ -354,6 +381,10 @@ def index():
 
 
 
+
+
+
+
 @app.route('/property', methods=['POST'])
 def property():
     address = request.form['address']
@@ -365,9 +396,7 @@ def property():
         "squareFootage": "Square Footage",
         "bedrooms": "Bedrooms",
         "bathrooms": "Bathrooms",
-        "yearBuilt": "Year Built",
-        "lotSize": "Lot Size",
-        "propertyType": "Property Type"
+
     }
 
     for col, display_name in expected_columns.items():
@@ -400,51 +429,64 @@ def property():
         <title>Property Info</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
         <style>
             body {{
-                background-color: #1a73e8;
-                color: white;
+                background-color: #007bff;
+                font-family: 'Bebas Neue', sans-serif;
             }}
             .container {{
                 margin-top: 50px;
-            }}
-            .card {{
+                background-color: white;
+                padding: 30px;
+                border-radius: 10px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                border-radius: 15px;
-                background-color: #1a73e8;
-            }}
-            .card-body {{
-                background-color: #ffffff;
-                border-radius: 15px;
-                padding: 20px;
-                color: black;
             }}
             h1 {{
-                font-family: 'Bebas Neue', sans-serif;
+                font-size: 2.5rem;
+                text-align: center;
+                margin-bottom: 20px;
+            }}
+            .card {{
+                margin-top: 20px;
+                border: none;
+            }}
+            .card-body {{
+                padding: 20px;
+                background-color: #f8f9fa;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }}
+            p {{
+                font-size: 1.2rem;
+            }}
+            ul {{
+                list-style: none;
+                padding: 0;
+            }}
+            ul li {{
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }}
+            .btn-secondary {{
+                margin-top: 20px;
+                font-size: 1.2rem;
             }}
         </style>
     </head>
     <body>
         <div class="container">
-            <h1 class="text-center">Quotes</h1>
-            <div class="card mt-4">
+            <h1>Quote</h1>
+            <div class="card">
                 <div class="card-body">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            {pricing_info}
-                        </div>
-                    </div>
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h2>Property Details</h2>
-                            <ul>
-                                {stats_list}
-                            </ul>
-                        </div>
-                    </div>
+                    {pricing_info}
+                    <h2>Property Details</h2>
+                    <ul>
+                        {stats_list}
+                    </ul>
                 </div>
             </div>
-            <a href="/" class="btn btn-secondary mt-3">Go Back</a>
+            <a href="/" class="btn btn-secondary">Go Back</a>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
