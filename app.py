@@ -2,6 +2,7 @@ from flask import Flask, request
 import requests
 import pandas as pd
 
+
 app = Flask(__name__)
 
 # Hardcoded API key
@@ -114,6 +115,7 @@ pricing_data = [
     {"sqft_range": "2000-2499", "bedrooms": 6, "bathrooms": 7.5, "deep_clean": 579, "standard_clean": 379, "move_in_out": 669},
     {"sqft_range": "2000-2499", "bedrooms": 6, "bathrooms": 8, "deep_clean": 579, "standard_clean": 389, "move_in/out": 669}
 ]
+
 
 def format_price(price):
     return f"${price}.99"
@@ -301,23 +303,120 @@ def index():
                 color: black;
                 margin: 0 10px;
             }
-            .btn-group {
-                display: flex;
-                gap: 10px;
-            }
             .btn-primary {
                 background-color: black; /* Black background for the magnifying glass */
                 border:
             }
+            .header-buttons {
+                display: flex;
+                gap: 10px;
+            }
+            .header .btn-book-now {
+                background-color: blue;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                font-size: 1.2rem;
+                font-family: 'Bebas Neue', sans-serif;
+                border-radius: 5px;
+            }
+            .header .btn-phone {
+                background-color: yellow;
+                color: blue;
+                border: none;
+                padding: 10px;
+                font-size: 1.2rem;
+                font-family: 'Bebas Neue', sans-serif;
+                border-radius: 5px;
+            }
+            .btn-book-now {
+    background-color: #007bff;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn-phone {
+    background-color: #ffd700;
+    color: #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 1.5rem;
+}
+
+
+/* Existing styles */
+
+.contact-section {
+    background: linear-gradient(to bottom, #007bff, #fff); /* Inverse blue gradient background */
+    padding: 100px 0;
+    text-align: center;
+}
+
+.contact-section h2 {
+    color: black; /* Black text for TOUCH" */
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.contact-section p {
+    color: black;
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.contact-section .social-icons i {
+    font-size: 2rem;
+    color: black;
+    margin: 0 10px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-section img.footer-logo {
+    width: 100px;
+    margin-bottom: 10px;
+    
+}
+
+.footer-section img.footer-yelp {
+    width: 55px; /* Smaller size for Yelp logo (1/4 of 100px) */
+    border-radius: 10px; /* Rounded edges for logos */
+}
+
+.footer-section p {
+    margin: 5px 0;
+    color: black;
+    font-size: 1rem;
+}
+
+
         </style>
     </head>
     <body>
         <div class="header">
+        
             <img src="/static/logo.png" alt="Logo" class="img-fluid">
-            <div class="btn-group">
-                <button class="btn btn-primary">Sign Up</button>
-                <button class="btn btn-secondary">Login</button>
-            </div>
         </div>
         <div class="yellow-field">
             <div class="hero-text-container">
@@ -356,19 +455,36 @@ def index():
                 </div>
             </div>
         </div>
-        <div class="contact-section">
-            <h2>Get In Touch</h2>
-            <p>We proudly serve Richmond, VA.</p>
-            <div class="social-icons">
-                <i class="fab fa-facebook"></i>
-                <i class="fab fa-instagram"></i>
-                <i class="fab fa-twitter"></i>
-                <i class="fab fa-youtube"></i>
-                <i class="fab fa-pinterest"></i>
-                <i class="fab fa-tiktok"></i>
-                <i class="fab fa-linkedin"></i>
-            </div>
+       <div class="contact-section">
+    <h2>Get In Touch</h2>
+    <p>We proudly serve Richmond, VA.</p>
+    <div class="social-icons">
+        <a href="https://www.facebook.com/profile.php?id=61556378134570&mibextid=uzlsIk" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/wklycleaning?igsh=MWQ5Nzc3bzlmbXNodw%3D%3D&utm_source=qr" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://twitter.com/weeklycleaning" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.youtube.com/@WeeklyHomeCleaning" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.pinterest.com/weeklyhomecleaning/" target="_blank"><i class="fab fa-pinterest"></i></a>
+        <a href="https://www.tiktok.com/@weeklyhomecleaning" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.linkedin.com/company/weeklycleaning/" target="_blank"><i class="fab fa-linkedin"></i></a>
+    </div>
+    <div class="footer-content">
+        <div class="footer-section">
+            <img src="/static/bark.png" alt="Bark Professional" class="footer-logo">
+            <p>Weekly Home Cleaning</p>
+            <img src="/static/yelp.png" alt="Yelp" class="footer-logo footer-yelp">
         </div>
+        <div class="footer-section">
+            <p>Reviews</p>
+            <p>Our Work</p>
+            <p>Contact Us</p>
+        </div>
+        <div class="footer-section">
+            <p>(804) 331-8472</p>
+            <p>Email Us</p>
+        </div>
+    </div>
+</div>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -376,12 +492,6 @@ def index():
     </html>
     '''
     return html_content
-
-
-
-
-
-
 
 
 
@@ -396,7 +506,6 @@ def property():
         "squareFootage": "Square Footage",
         "bedrooms": "Bedrooms",
         "bathrooms": "Bathrooms",
-
     }
 
     for col, display_name in expected_columns.items():
@@ -417,7 +526,6 @@ def property():
         <p><strong>Deep Clean Price:</strong> {deep_clean}</p>
         <p><strong>Standard Clean Price:</strong> {standard_clean}</p>
         <p><strong>Move in/out Price:</strong> {move_in_out}</p>
-        <p>If any of this information is incorrect, please contact us.</p>
         """
 
     stats_list = ''.join([f"<li><strong>{key}:</strong> {value}</li>" for key, value in property_stats.items()])
@@ -437,25 +545,34 @@ def property():
             }}
             .container {{
                 margin-top: 50px;
-                background-color: white;
+                background-color: #007bff;
                 padding: 30px;
                 border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }}
             h1 {{
                 font-size: 2.5rem;
                 text-align: center;
                 margin-bottom: 20px;
             }}
-            .card {{
-                margin-top: 20px;
-                border: none;
-            }}
-            .card-body {{
+            .quote-box {{
+                width: 45%;
+                background-color: white;
+                color: black;
                 padding: 20px;
-                background-color: #f8f9fa;
-                border-radius: 10px;
+                border-radius: 15px;
+                border: 4px solid #B8860B; /* Darker gold color */
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                margin: 0 auto 20px auto; /* Center the boxes and add space below */
+                margin-left: 0; /* Align to the left */
+            }}
+            .quote-box h3 {{
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin-bottom: 1rem;
+            }}
+            .quote-box p {{
+                font-size: 1rem;
+                margin-bottom: 1rem;
             }}
             p {{
                 font-size: 1.2rem;
@@ -477,14 +594,16 @@ def property():
     <body>
         <div class="container">
             <h1>Quote</h1>
-            <div class="card">
-                <div class="card-body">
-                    {pricing_info}
-                    <h2>Property Details</h2>
-                    <ul>
-                        {stats_list}
-                    </ul>
-                </div>
+            <div class="quote-box">
+                <h3>Pricing</h3>
+                {pricing_info}
+            </div>
+            <div class="quote-box">
+                <h3>Property Details</h3>
+                <ul>
+                    {stats_list}
+                </ul>
+                <p>If any of this information is incorrect, please contact us.</p>
             </div>
             <a href="/" class="btn btn-secondary">Go Back</a>
         </div>
@@ -496,10 +615,5 @@ def property():
     '''
     return html_content
 
-
-
-
-
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
