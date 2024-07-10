@@ -2,6 +2,7 @@ from flask import Flask, request
 import requests
 import pandas as pd
 
+
 app = Flask(__name__)
 
 # Hardcoded API key
@@ -115,6 +116,7 @@ pricing_data = [
     {"sqft_range": "2000-2499", "bedrooms": 6, "bathrooms": 8, "deep_clean": 579, "standard_clean": 389, "move_in/out": 669}
 ]
 
+
 def format_price(price):
     return f"${price}.99"
 
@@ -138,7 +140,7 @@ def get_property_records(rent_cast_api_key, address):
     response = requests.get(url, headers=headers, params=querystring)
     return response.json()
 
- @app.route('/')
+@app.route('/')
 def index():
     html_content = '''
     <!DOCTYPE html>
@@ -175,57 +177,80 @@ def index():
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                align-items: flex-start;
+                align-items: flex-end;
                 position: relative;
                 z-index: 5;
-                text-align: left;
+                text-align: right;
                 padding: 2rem;
             }
             .yellow-field {
-                background-color: #007bff; /* Solid blue background for the yellow field */
+                background-color: linear-gradient(to top, #007bff, #fff); /* Solid blue background for the yellow field */
                 padding: 100px 0; 
-                text-align: left;
+                text-align: right;
                 position: relative;
                 display: flex;
                 align-items: center;
-                justify-content: flex-start;
+                justify-content: flex-end;
                 width: 100%;
+                padding-right: 15%;
             }
             .hero-text-container {
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
+                justify-content: flex-end;
                 width: 100%;
-                padding: 0 15%;
+                padding-right: 5%;
+                flex-direction: column;
+                position: relative;
+                z-index: 2;
             }
             .hero-text {
                 font-size: 3rem;
                 font-weight: bold;
                 margin-bottom: 1rem;
                 color: white; /* Bold and white text for "Cleaning Made Simple." */
-                z-index: 2;
             }
             .input-group {
                 width: 50%; /* Adjusted width for the search bar */
                 margin: 0 auto;
-                z-index: 1;
-                margin-left: 15%;
+                text-align: right;
             }
-            .sponge-image {
-                width: 450px;
-                height: 450px;
-                border-radius: 50%;
+            .search-box {
+                background: #007bff;
+                border-radius: 15px;
+                padding: 0px;
+                
+                display: flex;
+                align-items: left;
+                justify-content: center;
+                width: 133%;
+                margin: left auto;
+            }
+            .sponge-box {
+                width: 900px; /* Adjust size as needed */
+                height: 600px;
+                background:  #007bff;
+                border-radius: 15px;
                 overflow: hidden;
-                margin-left: auto;
-                margin-top: 50px; /* Move the image down slightly */
-                z-index: 2;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+                margin-left: 10px; /* Space between text and sponge box */
+                z-index: 1;
+                padding: 20px;
+            }
+            .sponge-box img {
+                width: 90%;
+                height: auto;
+                border-radius: 70%;
             }
             .sections-container {
                 background: #007bff; /* Solid blue background for sections */
                 padding: 20px;
                 border-radius: 15px;
                 margin: 20px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                
             }
             .sections {
                 display: flex;
@@ -234,7 +259,7 @@ def index():
                 padding: 20px;
             }
             .section {
-                width: 30%;
+                width: 28%; /* Adjusted width for the sections */
                 background: white;
                 padding: 1rem;
                 border-radius: 8px;
@@ -258,7 +283,7 @@ def index():
                 color: #555;
             }
             .contact-section {
-                background: linear-gradient(to top, #007bff, #fff); /* Inverse blue gradient background */
+                background: linear-gradient(to bottom, #007bff, #fff); /* Inverse blue gradient background */
                 padding: 100px 0;
                 text-align: center;
             }
@@ -278,37 +303,138 @@ def index():
                 color: black;
                 margin: 0 10px;
             }
-            .btn-group {
+            .btn-primary {
+                background-color: black; /* Black background for the magnifying glass */
+                border:
+            }
+            .header-buttons {
                 display: flex;
                 gap: 10px;
             }
+            .header .btn-book-now {
+                background-color: blue;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                font-size: 1.2rem;
+                font-family: 'Bebas Neue', sans-serif;
+                border-radius: 5px;
+            }
+            .header .btn-phone {
+                background-color: yellow;
+                color: blue;
+                border: none;
+                padding: 10px;
+                font-size: 1.2rem;
+                font-family: 'Bebas Neue', sans-serif;
+                border-radius: 5px;
+            }
+            .btn-book-now {
+    background-color: #007bff;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn-phone {
+    background-color: #ffd700;
+    color: #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 1.5rem;
+}
+
+
+/* Existing styles */
+
+.contact-section {
+    background: linear-gradient(to bottom, #007bff, #fff); /* Inverse blue gradient background */
+    padding: 100px 0;
+    text-align: center;
+}
+
+.contact-section h2 {
+    color: black; /* Black text for TOUCH" */
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.contact-section p {
+    color: black;
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.contact-section .social-icons i {
+    font-size: 2rem;
+    color: black;
+    margin: 0 10px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-section img.footer-logo {
+    width: 100px;
+    margin-bottom: 10px;
+    
+}
+
+.footer-section img.footer-yelp {
+    width: 55px; /* Smaller size for Yelp logo (1/4 of 100px) */
+    border-radius: 10px; /* Rounded edges for logos */
+}
+
+.footer-section p {
+    margin: 5px 0;
+    color: black;
+    font-size: 1rem;
+}
+
+
         </style>
     </head>
     <body>
         <div class="header">
+        
             <img src="/static/logo.png" alt="Logo" class="img-fluid">
-            <div class="btn-group">
-                <button class="btn btn-primary">Sign Up</button>
-                <button class="btn btn-secondary">Login</button>
-            </div>
         </div>
         <div class="yellow-field">
             <div class="hero-text-container">
                 <div class="hero-text">Cleaning Made Simple.</div>
-                <div class="sponge-image">
-                    <img src="/static/sponge.png" alt="Sponge Image" class="img-fluid">
+                <div class="search-box">
+                    <form action="/property" method="post" class="input-group">
+                        <input type="text" id="address" name="address" class="form-control" placeholder="Enter an address and receive an estimate" required>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </div>
-        <div class="input-group">
-            <form action="/property" method="post">
-                <input type="text" id="address" name="address" class="form-control" placeholder="Enter an address and receive an estimate" required>
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </form>
+            <div class="sponge-box">
+                <img src="/static/sponge.png" alt="Sponge Image">
+            </div>
         </div>
         <div class="sections-container">
             <div class="sections">
@@ -329,19 +455,36 @@ def index():
                 </div>
             </div>
         </div>
-        <div class="contact-section">
-            <h2>Get In Touch</h2>
-            <p>We proudly serve Richmond, VA.</p>
-            <div class="social-icons">
-                <i class="fab fa-facebook"></i>
-                <i class="fab fa-instagram"></i>
-                <i class="fab fa-twitter"></i>
-                <i class="fab fa-youtube"></i>
-                <i class="fab fa-pinterest"></i>
-                <i class="fab fa-tiktok"></i>
-                <i class="fab fa-linkedin"></i>
-            </div>
+       <div class="contact-section">
+    <h2>Get In Touch</h2>
+    <p>We proudly serve Richmond, VA.</p>
+    <div class="social-icons">
+        <a href="https://www.facebook.com/profile.php?id=61556378134570&mibextid=uzlsIk" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/wklycleaning?igsh=MWQ5Nzc3bzlmbXNodw%3D%3D&utm_source=qr" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://twitter.com/weeklycleaning" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.youtube.com/@WeeklyHomeCleaning" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.pinterest.com/weeklyhomecleaning/" target="_blank"><i class="fab fa-pinterest"></i></a>
+        <a href="https://www.tiktok.com/@weeklyhomecleaning" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.linkedin.com/company/weeklycleaning/" target="_blank"><i class="fab fa-linkedin"></i></a>
+    </div>
+    <div class="footer-content">
+        <div class="footer-section">
+            <img src="/static/bark.png" alt="Bark Professional" class="footer-logo">
+            <p>Weekly Home Cleaning</p>
+            <img src="/static/yelp.png" alt="Yelp" class="footer-logo footer-yelp">
         </div>
+        <div class="footer-section">
+            <p>Reviews</p>
+            <p>Our Work</p>
+            <p>Contact Us</p>
+        </div>
+        <div class="footer-section">
+            <p>(804) 331-8472</p>
+            <p>Email Us</p>
+        </div>
+    </div>
+</div>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -349,8 +492,6 @@ def index():
     </html>
     '''
     return html_content
-
-
 
 
 
@@ -365,9 +506,6 @@ def property():
         "squareFootage": "Square Footage",
         "bedrooms": "Bedrooms",
         "bathrooms": "Bathrooms",
-        "yearBuilt": "Year Built",
-        "lotSize": "Lot Size",
-        "propertyType": "Property Type"
     }
 
     for col, display_name in expected_columns.items():
@@ -388,7 +526,6 @@ def property():
         <p><strong>Deep Clean Price:</strong> {deep_clean}</p>
         <p><strong>Standard Clean Price:</strong> {standard_clean}</p>
         <p><strong>Move in/out Price:</strong> {move_in_out}</p>
-        <p>If any of this information is incorrect, please contact us.</p>
         """
 
     stats_list = ''.join([f"<li><strong>{key}:</strong> {value}</li>" for key, value in property_stats.items()])
@@ -400,51 +537,75 @@ def property():
         <title>Property Info</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
         <style>
             body {{
-                background-color: #1a73e8;
-                color: white;
+                background-color: #007bff;
+                font-family: 'Bebas Neue', sans-serif;
             }}
             .container {{
                 margin-top: 50px;
-            }}
-            .card {{
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                border-radius: 15px;
-                background-color: #1a73e8;
-            }}
-            .card-body {{
-                background-color: #ffffff;
-                border-radius: 15px;
-                padding: 20px;
-                color: black;
+                background-color: #007bff;
+                padding: 30px;
+                border-radius: 10px;
             }}
             h1 {{
-                font-family: 'Bebas Neue', sans-serif;
+                font-size: 2.5rem;
+                text-align: center;
+                margin-bottom: 20px;
+            }}
+            .quote-box {{
+                width: 45%;
+                background-color: white;
+                color: black;
+                padding: 20px;
+                border-radius: 15px;
+                border: 4px solid #B8860B; /* Darker gold color */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                margin: 0 auto 20px auto; /* Center the boxes and add space below */
+                margin-left: 0; /* Align to the left */
+            }}
+            .quote-box h3 {{
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin-bottom: 1rem;
+            }}
+            .quote-box p {{
+                font-size: 1rem;
+                margin-bottom: 1rem;
+            }}
+            p {{
+                font-size: 1.2rem;
+            }}
+            ul {{
+                list-style: none;
+                padding: 0;
+            }}
+            ul li {{
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }}
+            .btn-secondary {{
+                margin-top: 20px;
+                font-size: 1.2rem;
             }}
         </style>
     </head>
     <body>
         <div class="container">
-            <h1 class="text-center">Quotes</h1>
-            <div class="card mt-4">
-                <div class="card-body">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            {pricing_info}
-                        </div>
-                    </div>
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h2>Property Details</h2>
-                            <ul>
-                                {stats_list}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <h1>Quote</h1>
+            <div class="quote-box">
+                <h3>Pricing</h3>
+                {pricing_info}
             </div>
-            <a href="/" class="btn btn-secondary mt-3">Go Back</a>
+            <div class="quote-box">
+                <h3>Property Details</h3>
+                <ul>
+                    {stats_list}
+                </ul>
+                <p>If any of this information is incorrect, please contact us.</p>
+            </div>
+            <a href="/" class="btn btn-secondary">Go Back</a>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -454,10 +615,5 @@ def property():
     '''
     return html_content
 
-
-
-
-
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
