@@ -468,20 +468,22 @@ def index():
         <a href="https://www.linkedin.com/company/weeklycleaning/" target="_blank"><i class="fab fa-linkedin"></i></a>
     </div>
     <div class="footer-content">
-        <div class="footer-section">
-            <img src="/static/bark.png" alt="Bark Professional" class="footer-logo">
-            <p>Weekly Home Cleaning</p>
+    <div class="footer-section">
+        <a href="https://www.yelp.com/biz/weekly-home-cleaning-richmond?utm_medium=biz_embedded_content&utm_source=biz_badge" target="_blank">
+       
+        </a>
+        
+        <a href="https://www.yelp.com/biz/weekly-home-cleaning-richmond?utm_medium=biz_embedded_content&utm_source=biz_badge" target="_blank">
             <img src="/static/yelp.png" alt="Yelp" class="footer-logo footer-yelp">
-        </div>
-        <div class="footer-section">
-            <p>Reviews</p>
-            <p>Our Work</p>
-            <p>Contact Us</p>
-        </div>
-        <div class="footer-section">
-            <p>(804) 331-8472</p>
-            <p>Email Us</p>
-        </div>
+        </a>
+    </div>
+    <div class="footer-section">
+        <a href="https://www.weeklyhomecleaning.com/reviews" target="_blank">Reviews</a>
+         <a href="https://www.weeklyhomecleaning.com/contact-us" target="_blank">Contact Us</a>
+    </div>
+    <div class="footer-section" style="text-align: center;">
+        <a href="https://www.weeklyhomecleaning.com/our-work" target="_blank">Our Work</a>
+        
     </div>
 </div>
 
