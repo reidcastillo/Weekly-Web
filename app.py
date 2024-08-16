@@ -450,7 +450,7 @@ def index():
                 </div>
                 <div class="section">
                     <i class="fas fa-box"></i>
-                    <h3>Move-in/Move-out Cleaning Service</h3>
+                    <h3>Move-in/out Cleaning Service</h3>
                     <p>Transitioning homes can be overwhelming, but with our move-in/move-out cleaning service, you can easily focus on settling into your new chapter. Leave the cleaning to us – whether handing over the keys to the next occupant or stepping into your future residence, our team creates your fresh start.</p>
                 </div>
             </div>
@@ -468,20 +468,22 @@ def index():
         <a href="https://www.linkedin.com/company/weeklycleaning/" target="_blank"><i class="fab fa-linkedin"></i></a>
     </div>
     <div class="footer-content">
-        <div class="footer-section">
-            <img src="/static/bark.png" alt="Bark Professional" class="footer-logo">
-            <p>Weekly Home Cleaning</p>
+    <div class="footer-section">
+        <a href="https://www.yelp.com/biz/weekly-home-cleaning-richmond?utm_medium=biz_embedded_content&utm_source=biz_badge" target="_blank">
+       
+        </a>
+        
+        <a href="https://www.yelp.com/biz/weekly-home-cleaning-richmond?utm_medium=biz_embedded_content&utm_source=biz_badge" target="_blank">
             <img src="/static/yelp.png" alt="Yelp" class="footer-logo footer-yelp">
-        </div>
-        <div class="footer-section">
-            <p>Reviews</p>
-            <p>Our Work</p>
-            <p>Contact Us</p>
-        </div>
-        <div class="footer-section">
-            <p>(804) 331-8472</p>
-            <p>Email Us</p>
-        </div>
+        </a>
+    </div>
+    <div class="footer-section">
+        <a href="https://www.weeklyhomecleaning.com/reviews" target="_blank">Reviews</a>
+         <a href="https://www.weeklyhomecleaning.com/contact-us" target="_blank">Contact Us</a>
+    </div>
+    <div class="footer-section" style="text-align: center;">
+        <a href="https://www.weeklyhomecleaning.com/our-work" target="_blank">Our Work</a>
+        
     </div>
 </div>
 
@@ -548,30 +550,32 @@ def property():
                 background-color: #007bff;
                 padding: 30px;
                 border-radius: 10px;
-            }}
-            h1 {{
-                font-size: 2.5rem;
                 text-align: center;
-                margin-bottom: 20px;
+            }}
+            .header-img {{
+                display: block;
+                margin: 0 auto 20px auto;
+                width: 200px; /* Adjust the size as needed */
             }}
             .quote-box {{
-                width: 45%;
+                width: 60%;
                 background-color: white;
                 color: black;
-                padding: 20px;
+                padding: 30px;
                 border-radius: 15px;
                 border: 4px solid #B8860B; /* Darker gold color */
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 margin: 0 auto 20px auto; /* Center the boxes and add space below */
-                margin-left: 0; /* Align to the left */
             }}
             .quote-box h3 {{
                 font-size: 1.5rem;
                 font-weight: bold;
                 margin-bottom: 1rem;
+                text-decoration: underline;
             }}
             .quote-box p {{
                 font-size: 1rem;
+                font-weight: normal; /* Make the paragraph text not bold */
                 margin-bottom: 1rem;
             }}
             p {{
@@ -589,11 +593,15 @@ def property():
                 margin-top: 20px;
                 font-size: 1.2rem;
             }}
+            .contact-link {{
+                color: blue;
+                text-decoration: underline;
+            }}
         </style>
     </head>
     <body>
         <div class="container">
-            <h1>Quote</h1>
+            <img src="/static/logo.png" alt="Weekly Home Cleaning" class="header-img">
             <div class="quote-box">
                 <h3>Pricing</h3>
                 {pricing_info}
@@ -603,7 +611,7 @@ def property():
                 <ul>
                     {stats_list}
                 </ul>
-                <p>If any of this information is incorrect, please contact us.</p>
+                <p>If any of this information is incorrect, please <a href="https://www.weeklyhomecleaning.com/contact-us" class="contact-link">contact us</a></p>
             </div>
             <a href="/" class="btn btn-secondary">Go Back</a>
         </div>
@@ -616,4 +624,4 @@ def property():
     return html_content
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
+    app.run(host='0.0.0.0', port=443, debug=True, ssl_context=('cert.pem', 'key.pem'))
