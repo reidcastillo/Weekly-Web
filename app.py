@@ -6,7 +6,7 @@ import pandas as pd
 app = Flask(__name__)
 
 # Hardcoded API key
-RENT_CAST_API_KEY = 'acfccec5460e4959ac61d2c61cc476c2'
+RENT_CAST_API_KEY = 'super_secret_api_key'
 
 pricing_data = [
 
